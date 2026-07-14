@@ -134,7 +134,7 @@ struct JNIClassTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_MyClass__00024method__")
-        public func Java_com_example_swift_MyClass__00024method__(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) {
+        public func Java_com_example_swift_MyClass__00024method__(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) {
           MyClass.method()
         }
         """
@@ -191,7 +191,7 @@ struct JNIClassTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_MyClass__00024init__JJ")
-        public func Java_com_example_swift_MyClass__00024init__JJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, x: jlong, y: jlong) -> jlong {
+        public func Java_com_example_swift_MyClass__00024init__JJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, x: jlong, y: jlong) -> jlong {
           let result$ = UnsafeMutablePointer<MyClass>.allocate(capacity: 1)
           result$.initialize(to: MyClass.init(x: Int64(fromJNI: x, in: environment), y: Int64(fromJNI: y, in: environment)))
           let resultBits$ = Int64(Int(bitPattern: result$))
@@ -200,7 +200,7 @@ struct JNIClassTests {
         """,
         """
         @_cdecl("Java_com_example_swift_MyClass__00024init__")
-        public func Java_com_example_swift_MyClass__00024init__(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jlong {
+        public func Java_com_example_swift_MyClass__00024init__(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> jlong {
           let result$ = UnsafeMutablePointer<MyClass>.allocate(capacity: 1)
           result$.initialize(to: MyClass.init())
           let resultBits$ = Int64(Int(bitPattern: result$))
@@ -246,7 +246,7 @@ struct JNIClassTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_MyClass__00024doSomething__JJ")
-        public func Java_com_example_swift_MyClass__00024doSomething__JJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, x: jlong, selfPointer: jlong) {
+        public func Java_com_example_swift_MyClass__00024doSomething__JJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, x: jlong, selfPointer: jlong) {
           assert(selfPointer != 0, "selfPointer memory address was null")
           let selfPointerBits$ = Int(Int64(fromJNI: selfPointer, in: environment))
           let selfPointer$ = UnsafeMutablePointer<MyClass>(bitPattern: selfPointerBits$)
@@ -295,7 +295,7 @@ struct JNIClassTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_MyClass__00024copy__J")
-        public func Java_com_example_swift_MyClass__00024copy__J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong) -> jlong {
+        public func Java_com_example_swift_MyClass__00024copy__J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong) -> jlong {
           assert(selfPointer != 0, "selfPointer memory address was null")
           let selfPointerBits$ = Int(Int64(fromJNI: selfPointer, in: environment))
           let selfPointer$ = UnsafeMutablePointer<MyClass>(bitPattern: selfPointerBits$)
@@ -347,7 +347,7 @@ struct JNIClassTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_MyClass__00024isEqual__JJ")
-        public func Java_com_example_swift_MyClass__00024isEqual__JJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, other: jlong, selfPointer: jlong) -> jboolean {
+        public func Java_com_example_swift_MyClass__00024isEqual__JJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, other: jlong, selfPointer: jlong) -> jboolean {
           assert(other != 0, "other memory address was null")
           let otherBits$ = Int(Int64(fromJNI: other, in: environment))
           let other$ = UnsafeMutablePointer<MyClass>(bitPattern: otherBits$)

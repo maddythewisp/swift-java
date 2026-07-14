@@ -108,7 +108,7 @@ extension JavaImplementationMacro: PeerMacro {
       // Map the parameters.
       let cParameters: [FunctionParameterSyntax] =
         [
-          "environment: UnsafeMutablePointer<JNIEnv?>!",
+          "environment: UnsafeMutablePointer<CJNIEnv?>!",
           isStatic ? "thisClass: jclass" : "thisObj: jobject",
         ]
         + parametersClause.parameters.map { param in

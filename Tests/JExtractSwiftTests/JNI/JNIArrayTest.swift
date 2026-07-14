@@ -48,8 +48,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3B")
-        public func Java_com_example_swift_SwiftModule__00024f___3B(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, array: jbyteArray?) -> jbyteArray? {
-          return SwiftModule.f(array: [UInt8](fromJNI: array, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024f___3B(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, array: CjbyteArray?) -> CjbyteArray? {
+          return unsafeBitCast(SwiftModule.f(array: [UInt8](fromJNI: array, in: environment)).getJNILocalRefValue(in: environment), to: CjbyteArray?.self)
         }
         """
       ]
@@ -86,8 +86,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3B")
-        public func Java_com_example_swift_SwiftModule__00024f___3B(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, array: jbyteArray?) -> jbyteArray? {
-          return SwiftModule.f(array: [UInt8](fromJNI: array, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024f___3B(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, array: CjbyteArray?) -> CjbyteArray? {
+          return unsafeBitCast(SwiftModule.f(array: [UInt8](fromJNI: array, in: environment)).getJNILocalRefValue(in: environment), to: CjbyteArray?.self)
         }
         """
       ]
@@ -124,8 +124,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3J")
-        public func Java_com_example_swift_SwiftModule__00024f___3J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, array: jlongArray?) -> jlongArray? {
-          return SwiftModule.f(array: [Int64](fromJNI: array, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024f___3J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, array: CjlongArray?) -> CjlongArray? {
+          return unsafeBitCast(SwiftModule.f(array: [Int64](fromJNI: array, in: environment)).getJNILocalRefValue(in: environment), to: CjlongArray?.self)
         }
         """
       ]
@@ -171,8 +171,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3J")
-        public func Java_com_example_swift_SwiftModule__00024f___3J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, array: jlongArray?) -> jlongArray? {
-          return SwiftModule.f(array: [Int64](fromJNI: array, in: environment).map( { (pointer$) in
+        public func Java_com_example_swift_SwiftModule__00024f___3J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, array: CjlongArray?) -> CjlongArray? {
+          return unsafeBitCast(SwiftModule.f(array: [Int64](fromJNI: array, in: environment).map( { (pointer$) in
             assert(pointer$ != 0, "pointer$ memory address was null")
             let pointer$Bits$ = Int(pointer$)
             let pointer$$ = UnsafeMutablePointer<MySwiftClass>(bitPattern: pointer$Bits$)
@@ -187,7 +187,7 @@ struct JNIArrayTest {
             let object$Bits$ = Int64(Int(bitPattern: object$$))
             return object$Bits$
           }
-          ).getJNILocalRefValue(in: environment)
+          ).getJNILocalRefValue(in: environment), to: CjlongArray?.self)
         }
         """
       ]
@@ -228,8 +228,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3_3B")
-        public func Java_com_example_swift_SwiftModule__00024f___3_3B(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, data: jobjectArray?) -> jobjectArray? {
-          return SwiftModule.f(data: [[UInt8]](fromJNI: data, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024f___3_3B(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, data: CjobjectArray?) -> CjobjectArray? {
+          return unsafeBitCast(SwiftModule.f(data: [[UInt8]](fromJNI: data, in: environment)).getJNILocalRefValue(in: environment), to: CjobjectArray?.self)
         }
         """
       ]
@@ -266,8 +266,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3_3J")
-        public func Java_com_example_swift_SwiftModule__00024f___3_3J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, data: jobjectArray?) -> jobjectArray? {
-          return SwiftModule.f(data: [[Int64]](fromJNI: data, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024f___3_3J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, data: CjobjectArray?) -> CjobjectArray? {
+          return unsafeBitCast(SwiftModule.f(data: [[Int64]](fromJNI: data, in: environment)).getJNILocalRefValue(in: environment), to: CjobjectArray?.self)
         }
         """
       ]
@@ -304,8 +304,8 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024f___3_3Ljava_lang_String_2")
-        public func Java_com_example_swift_SwiftModule__00024f___3_3Ljava_lang_String_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, data: jobjectArray?) -> jobjectArray? {
-          return SwiftModule.f(data: [[String]](fromJNI: data, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024f___3_3Ljava_lang_String_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, data: CjobjectArray?) -> CjobjectArray? {
+          return unsafeBitCast(SwiftModule.f(data: [[String]](fromJNI: data, in: environment)).getJNILocalRefValue(in: environment), to: CjobjectArray?.self)
         }
         """
       ]
@@ -349,13 +349,12 @@ struct JNIArrayTest {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024namedByteArrayTuple___3_3B_3_3B")
-        public func Java_com_example_swift_SwiftModule__00024namedByteArrayTuple___3_3B_3_3B(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, result_0$: jobjectArray?, result_1$: jobjectArray?) {
+        public func Java_com_example_swift_SwiftModule__00024namedByteArrayTuple___3_3B_3_3B(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, result_0$: CjobjectArray?, result_1$: CjobjectArray?) {
           let tupleResult$ = SwiftModule.namedByteArrayTuple()
           let element_0_jni$ = tupleResult$.name.getJNILocalRefValue(in: environment)
           environment.interface.SetObjectArrayElement(environment, result_0$, 0, element_0_jni$)
           let element_1_jni$ = tupleResult$.another.getJNILocalRefValue(in: environment)
           environment.interface.SetObjectArrayElement(environment, result_1$, 0, element_1_jni$)
-          return
         }
         """
       ]

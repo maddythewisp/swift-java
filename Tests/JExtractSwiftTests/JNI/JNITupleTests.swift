@@ -202,8 +202,8 @@ struct JNITupleTests {
       detectChunkByInitialLines: 1,
       expectedChunks: [
         """
-        public func Java_com_example_swift_SwiftModule__00024singleTuple__Ljava_lang_String_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, input: jstring?) -> jstring? {
-          return SwiftModule.singleTuple(input: String(fromJNI: input, in: environment)).getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024singleTuple__Ljava_lang_String_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, input: Cjstring?) -> Cjstring? {
+          return unsafeBitCast(SwiftModule.singleTuple(input: String(fromJNI: input, in: environment)).getJNILocalRefValue(in: environment), to: Cjstring?.self)
         } 
         """
       ]

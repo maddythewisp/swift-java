@@ -8,7 +8,10 @@ let swiftJavaJNICoreDep: Package.Dependency
 if let localPath = Context.environment["SWIFT_JAVA_JNI_CORE_PATH"] {
   swiftJavaJNICoreDep = .package(path: localPath)
 } else {
-  swiftJavaJNICoreDep = .package(url: "https://github.com/swiftlang/swift-java-jni-core", branch: "main")
+  swiftJavaJNICoreDep = .package(
+    url: "https://github.com/maddythewisp/swift-java-jni-core",
+    branch: "nucleus-cxx-interop"
+  )
 }
 
 // Set SWIFTJAVA_DOCC_PLUGIN_INSTALL=1 to install the docc-plugin automatically.
@@ -369,7 +372,7 @@ let package = Package(
           .when(platforms: [.macOS, .macCatalyst, .iOS, .watchOS, .tvOS, .visionOS])
         ),
         .define("SYSTEM_PACKAGE"),
-      ]
+      ],
     ),
 
     .target(

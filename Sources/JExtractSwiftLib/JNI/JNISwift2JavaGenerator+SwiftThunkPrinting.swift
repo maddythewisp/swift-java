@@ -757,10 +757,19 @@ extension JNISwift2JavaGenerator {
     func innerBody(in printer: inout SwiftPrinter) -> String {
       let loweredResult = nativeSignature.result.conversion.render(&printer, result)
 
-      if !decl.functionSignature.result.type.isVoid {
-        return "return \(loweredResult)"
-      } else {
+      // JNI reference results use C-compatible aliases in exported thunks, while
+      // SwiftJava's conversion layer returns the ordinary jni.h spelling. They
+      // are ABI-identical but type-distinct under C++ interop. Primitive JNI
+      // results already have invariant Swift types and need no cast.
+      guard !decl.functionSignature.result.type.isVoid, !loweredResult.isEmpty else {
         return loweredResult
+      }
+      switch nativeSignature.result.javaType {
+      case .class, .array:
+        let resultType = nativeSignature.result.javaType.jniTypeName
+        return "return unsafeBitCast(\(loweredResult), to: \(resultType).self)"
+      default:
+        return "return \(loweredResult)"
       }
     }
 
@@ -884,7 +893,7 @@ extension JNISwift2JavaGenerator {
 
     let thunkParameters =
       [
-        "environment: UnsafeMutablePointer<JNIEnv?>!",
+        "environment: UnsafeMutablePointer<CJNIEnv?>!",
         "thisClass: jclass",
       ] + translatedParameters
     let thunkReturnType = resultType != .void ? " -> \(resultType.jniTypeName)" : ""
@@ -931,8 +940,8 @@ extension JNISwift2JavaGenerator {
           methods: [wrapMemoryAddressUnsafeMethod]
         )
 
-        static var javaClass: jclass {
-          cache.javaClass
+        static var javaClass: OpaquePointer {
+          OpaquePointer(cache.javaClass)
         }
 
         static var wrapMemoryAddressUnsafe: jmethodID {
@@ -972,7 +981,7 @@ extension JNISwift2JavaGenerator {
     printer.printBraceBlock(bridgeDeclaration) { printer in
       printer.print("typealias SwiftType = \(bridgedSwiftType)")
       printer.println()
-      printer.printBraceBlock("static var javaClass: jclass") { printer in
+      printer.printBraceBlock("static var javaClass: OpaquePointer") { printer in
         printer.print("\(cacheName).javaClass")
       }
       printer.println()
@@ -1149,7 +1158,7 @@ extension JNISwift2JavaGenerator {
 
       let thunkParameters =
         [
-          "environment: UnsafeMutablePointer<JNIEnv?>!",
+          "environment: UnsafeMutablePointer<CJNIEnv?>!",
           "thisClass: jclass",
         ] + translatedParameters
       let thunkReturnType = resultType != .void ? " -> \(resultType.jniTypeName)" : ""

@@ -34,7 +34,7 @@ struct UUIDTests {
         [
           """
           @_cdecl("Java_com_example_swift_SwiftModule__00024acceptUUID__Ljava_lang_String_2")
-          public func Java_com_example_swift_SwiftModule__00024acceptUUID__Ljava_lang_String_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, uuid: jstring?) {
+          public func Java_com_example_swift_SwiftModule__00024acceptUUID__Ljava_lang_String_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, uuid: Cjstring?) {
             let uuid_string$ = String(fromJNI: uuid, in: environment)
             guard let uuid_unwrapped$ = UUID.init(uuidString: uuid_string$) else {
               fatalError("Invalid UUID string passed from Java: \\(uuid_string$)")
@@ -92,8 +92,8 @@ struct UUIDTests {
         [
           """
           @_cdecl("Java_com_example_swift_SwiftModule__00024returnUUID__")
-          public func Java_com_example_swift_SwiftModule__00024returnUUID__(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jstring? {
-            return SwiftModule.returnUUID().uuidString.getJNILocalRefValue(in: environment)
+          public func Java_com_example_swift_SwiftModule__00024returnUUID__(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> Cjstring? {
+            return unsafeBitCast(SwiftModule.returnUUID().uuidString.getJNILocalRefValue(in: environment), to: Cjstring?.self)
           }
           """
         ]

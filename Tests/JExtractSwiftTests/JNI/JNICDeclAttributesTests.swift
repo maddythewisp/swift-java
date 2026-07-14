@@ -59,4 +59,34 @@ struct JNICDeclAttributesTests {
       ]
     )
   }
+
+  @Test
+  func generatedThunkUsesCCompatibleJNIEnvironment() throws {
+    try assertOutput(
+      input: "public func copy(_ value: String) -> String",
+      .jni,
+      .swift,
+      expectedChunks: [
+        "environment: UnsafeMutablePointer<CJNIEnv?>!",
+        "value: Cjstring?",
+        "-> Cjstring?",
+        "return unsafeBitCast(",
+      ]
+    )
+  }
+
+  @Test
+  func primitiveResultDoesNotNeedInteropBitcast() throws {
+    try assertOutput(
+      input: "public func identity(_ value: Int32) -> Int32",
+      .jni,
+      .swift,
+      expectedChunks: [
+        "environment: UnsafeMutablePointer<CJNIEnv?>!",
+        "value: jint",
+        "-> jint",
+      ],
+      notExpectedChunks: ["return unsafeBitCast("]
+    )
+  }
 }

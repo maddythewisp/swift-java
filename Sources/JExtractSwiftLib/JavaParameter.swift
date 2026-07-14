@@ -55,7 +55,7 @@ struct JavaParameter {
     var jniTypeName: String {
       switch self {
       case .concrete(let type): type.jniTypeName
-      case .generic: "jobject?"
+      case .generic: "Cjobject?"
       }
     }
 

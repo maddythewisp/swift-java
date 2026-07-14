@@ -79,7 +79,7 @@ struct JNIGenericCombinationTests {
         expectedChunks: [
           """
           @_cdecl("Java_com_example_swift_SwiftModule__00024makeStringIDOptional__Ljava_lang_String_2_3BLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2")
-          public func Java_com_example_swift_SwiftModule__00024makeStringIDOptional__Ljava_lang_String_2_3BLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, value: jstring?, result_discriminator$: jbyteArray?, resultWrappedOut: jobject?) {
+          public func Java_com_example_swift_SwiftModule__00024makeStringIDOptional__Ljava_lang_String_2_3BLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, value: Cjstring?, result_discriminator$: CjbyteArray?, resultWrappedOut: Cjobject?) {
             if let innerResult$ = SwiftModule.makeStringIDOptional(String(fromJNI: value, in: environment)) {
               let resultWrapped$ = UnsafeMutablePointer<MyID<String>>.allocate(capacity: 1)
               resultWrapped$.initialize(to: innerResult$)
@@ -97,7 +97,6 @@ struct JNIGenericCombinationTests {
               var flag$ = Int8(0)
               environment.interface.SetByteArrayRegion(environment, result_discriminator$, 0, 1, &flag$)
             }
-            return 
           }
           """
         ]
@@ -134,7 +133,7 @@ struct JNIGenericCombinationTests {
         expectedChunks: [
           """
           @_cdecl("Java_com_example_swift_SwiftModule__00024takeStringIDOptional__J")
-          public func Java_com_example_swift_SwiftModule__00024takeStringIDOptional__J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, value: jlong) {
+          public func Java_com_example_swift_SwiftModule__00024takeStringIDOptional__J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, value: jlong) {
             let valueBits$ = Int(Int64(fromJNI: value, in: environment))
             let value$ = UnsafeMutablePointer<MyID<String>>(bitPattern: valueBits$)
             SwiftModule.takeStringIDOptional(value$?.pointee)
@@ -197,7 +196,7 @@ struct JNIGenericCombinationTests {
         expectedChunks: [
           """
           @_cdecl("Java_com_example_swift_SwiftModule__00024makeIDs__Ljava_lang_String_2JLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2")
-          public func Java_com_example_swift_SwiftModule__00024makeIDs__Ljava_lang_String_2JLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, stringValue: jstring?, intValue: jlong, result_0$Out: jobject?, result_1$Out: jobject?) {
+          public func Java_com_example_swift_SwiftModule__00024makeIDs__Ljava_lang_String_2JLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, stringValue: Cjstring?, intValue: jlong, result_0$Out: Cjobject?, result_1$Out: Cjobject?) {
             let tupleResult$ = SwiftModule.makeIDs(String(fromJNI: stringValue, in: environment), Int64(fromJNI: intValue, in: environment))
             let result_0$$ = UnsafeMutablePointer<MyID<String>>.allocate(capacity: 1)
             result_0$$.initialize(to: tupleResult$.0)
@@ -217,7 +216,6 @@ struct JNIGenericCombinationTests {
               let metadataPointerBits$ = Int64(Int(bitPattern: metadataPointer))
               environment.interface.SetLongField(environment, result_1$Out, _JNIMethodIDCache._OutSwiftGenericInstance.selfTypePointer, metadataPointerBits$.getJNIValue(in: environment))
             }
-            return 
           }
           """
         ]
@@ -257,7 +255,7 @@ struct JNIGenericCombinationTests {
         expectedChunks: [
           #"""
           @_cdecl("Java_com_example_swift_SwiftModule__00024takeValues__JJ_3Ljava_lang_String_2_3J")
-          public func Java_com_example_swift_SwiftModule__00024takeValues__JJ_3Ljava_lang_String_2_3J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, tuple_0: jlong, tuple_1: jlong, result_0$: jobjectArray?, result_1$: jlongArray?) {
+          public func Java_com_example_swift_SwiftModule__00024takeValues__JJ_3Ljava_lang_String_2_3J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, tuple_0: jlong, tuple_1: jlong, result_0$: CjobjectArray?, result_1$: CjlongArray?) {
             assert(tuple_0 != 0, "tuple_0 memory address was null")
             let tuple_0Bits$ = Int(Int64(fromJNI: tuple_0, in: environment))
             let tuple_0$ = UnsafeMutablePointer<MyID<String>>(bitPattern: tuple_0Bits$)
@@ -275,7 +273,6 @@ struct JNIGenericCombinationTests {
             environment.interface.SetObjectArrayElement(environment, result_0$, 0, element_0_jni$)
             var element_1_jni$ = tupleResult$.1.getJNILocalRefValue(in: environment)
             environment.interface.SetLongArrayRegion(environment, result_1$, 0, 1, &element_1_jni$)
-            return 
           }
           """#
         ]

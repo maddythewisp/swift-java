@@ -200,7 +200,7 @@ struct JNIProtocolTests {
         """,
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024takeProtocol__Ljava_lang_Object_2Ljava_lang_Object_2")
-        public func Java_com_example_swift_SwiftModule__00024takeProtocol__Ljava_lang_Object_2Ljava_lang_Object_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, x: jobject?, y: jobject?) {
+        public func Java_com_example_swift_SwiftModule__00024takeProtocol__Ljava_lang_Object_2Ljava_lang_Object_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, x: Cjobject?, y: Cjobject?) {
           let xswiftObject$: (any SomeProtocol)
           if environment.interface.IsInstanceOf(environment, x, _JNIMethodIDCache.JNISwiftInstance.class) != 0 {
             ...
@@ -276,7 +276,7 @@ struct JNIProtocolTests {
         """,
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024takeGeneric__Ljava_lang_Object_2")
-        public func Java_com_example_swift_SwiftModule__00024takeGeneric__Ljava_lang_Object_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, s: jobject?) {
+        public func Java_com_example_swift_SwiftModule__00024takeGeneric__Ljava_lang_Object_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, s: Cjobject?) {
           let sswiftObject$: (any SomeProtocol)
           if environment.interface.IsInstanceOf(environment, s, _JNIMethodIDCache.JNISwiftInstance.class) != 0 {
             ...
@@ -334,7 +334,7 @@ struct JNIProtocolTests {
         """,
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024takeComposite__Ljava_lang_Object_2")
-        public func Java_com_example_swift_SwiftModule__00024takeComposite__Ljava_lang_Object_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, x: jobject?) {
+        public func Java_com_example_swift_SwiftModule__00024takeComposite__Ljava_lang_Object_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, x: Cjobject?) {
           let xswiftObject$: (any (SomeProtocol & B))
           if environment.interface.IsInstanceOf(environment, x, _JNIMethodIDCache.JNISwiftInstance.class) != 0 {
             let xpointer$ = environment.interface.CallLongMethodA(environment, x, _JNIMethodIDCache.JNISwiftInstance.memoryAddress, [])
@@ -508,7 +508,7 @@ struct JNIProtocolTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024makeGreeter__Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2")
-        public func Java_com_example_swift_SwiftModule__00024makeGreeter__Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, resultOut: jobject?) {
+        public func Java_com_example_swift_SwiftModule__00024makeGreeter__Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, resultOut: Cjobject?) {
           let resultExistential$: (any Greeter) = SwiftModule.makeGreeter()
           ...
           do {
@@ -519,7 +519,7 @@ struct JNIProtocolTests {
         """,
         """
         @_cdecl("Java_com_example_swift_GreeterBox__00024greeting__JJ")
-        public func Java_com_example_swift_GreeterBox__00024greeting__JJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong, selfTypePointer: jlong) -> jstring? {
+        public func Java_com_example_swift_GreeterBox__00024greeting__JJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong, selfTypePointer: jlong) -> Cjstring? {
           guard let selfPointerTypeMetadataPointer$ = UnsafeRawPointer(bitPattern: Int(Int64(fromJNI: selfTypePointer, in: environment))) else {
             fatalError("selfTypePointer memory address was null")
           }
@@ -535,7 +535,7 @@ struct JNIProtocolTests {
           }
           let selfPointerExistential$ = _openExistential(selfPointerDynamicType$, do: selfPointerDoLoad)
           #endif
-          return selfPointerExistential$.greeting().getJNILocalRefValue(in: environment)
+          return unsafeBitCast(selfPointerExistential$.greeting().getJNILocalRefValue(in: environment), to: Cjstring?.self)
         }
         """,
       ]
@@ -553,14 +553,14 @@ struct JNIProtocolTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_GreeterBox__00024getFavoriteNumber__JJ")
-        public func Java_com_example_swift_GreeterBox__00024getFavoriteNumber__JJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong, selfTypePointer: jlong) -> jlong {
+        public func Java_com_example_swift_GreeterBox__00024getFavoriteNumber__JJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong, selfTypePointer: jlong) -> jlong {
           ...
           return selfPointerExistential$.favoriteNumber.getJNILocalRefValue(in: environment)
         }
         """,
         """
         @_cdecl("Java_com_example_swift_GreeterBox__00024setFavoriteNumber__JJJ")
-        public func Java_com_example_swift_GreeterBox__00024setFavoriteNumber__JJJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, newValue: jlong, selfPointer: jlong, selfTypePointer: jlong) {
+        public func Java_com_example_swift_GreeterBox__00024setFavoriteNumber__JJJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, newValue: jlong, selfPointer: jlong, selfTypePointer: jlong) {
           ...
           #if hasFeature(ImplicitOpenExistentials)
           var selfPointerExistential$: (any Greeter) = selfPointerRawPointer$.load(as: selfPointerDynamicType$) as! (any Greeter)

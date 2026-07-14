@@ -19,7 +19,7 @@ import SwiftJava
 /// This protocol exists so individual generated bridges can stay concise and
 /// avoid repeating the same boilerplate.
 public protocol JextractedTypeBridge: JobjectBridge {
-  static var javaClass: jclass { get }
+  static var javaClass: OpaquePointer { get }
   static var wrapMemoryAddressUnsafe: jmethodID { get }
 }
 
@@ -33,7 +33,7 @@ extension JextractedTypeBridge {
     args[1].l = JavaSwiftArena.defaultAutoArena.javaThis
     return environment.interface.CallStaticObjectMethodA(
       environment,
-      Self.javaClass,
+      unsafeBitCast(Self.javaClass, to: jclass.self),
       Self.wrapMemoryAddressUnsafe,
       &args
     )
@@ -60,7 +60,7 @@ extension JextractedTypeBridge {
     in environment: JNIEnvironment,
     _ body: (jclass) throws -> Result
   ) throws -> Result {
-    try body(javaClass)
+    try body(unsafeBitCast(javaClass, to: jclass.self))
   }
 }
 
@@ -79,7 +79,7 @@ extension JextractedGenericTypeBridge {
     args[2].l = JavaSwiftArena.defaultAutoArena.javaThis
     return environment.interface.CallStaticObjectMethodA(
       environment,
-      Self.javaClass,
+      unsafeBitCast(Self.javaClass, to: jclass.self),
       Self.wrapMemoryAddressUnsafe,
       &args
     )

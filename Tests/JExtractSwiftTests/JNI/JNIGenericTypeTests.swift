@@ -90,27 +90,27 @@ struct JNIGenericTypeTests {
       expectedChunks: [
         """
         protocol _SwiftModule_MyID_opener {
-          static func _get_description(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong) -> jstring?
+          static func _get_description(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong) -> Cjstring?
           ...
         }
         """,
         #"""
         extension MyID: _SwiftModule_MyID_opener {
-          static func _get_description(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong) -> jstring? {
+          static func _get_description(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong) -> Cjstring? {
             assert(selfPointer != 0, "selfPointer memory address was null")
             let selfPointerBits$ = Int(Int64(fromJNI: selfPointer, in: environment))
             let selfPointer$ = UnsafeMutablePointer<MyID<T>>(bitPattern: selfPointerBits$)
             guard let selfPointer$ else {
               fatalError("selfPointer memory address was null in call to \(#function)!")
             }
-            return selfPointer$.pointee.description.getJNILocalRefValue(in: environment)
+            return unsafeBitCast(selfPointer$.pointee.description.getJNILocalRefValue(in: environment), to: Cjstring?.self)
           }
           ...
         }
         """#,
         """
         @_cdecl("Java_com_example_swift_MyID__00024getDescription__JJ")
-        public func Java_com_example_swift_MyID__00024getDescription__JJ(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong, selfTypePointer: jlong) -> jstring? {
+        public func Java_com_example_swift_MyID__00024getDescription__JJ(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong, selfTypePointer: jlong) -> Cjstring? {
           let selfTypePointerBits$ = Int(Int64(fromJNI: selfTypePointer, in: environment))
           guard let selfTypePointer$ = UnsafeRawPointer(bitPattern: selfTypePointerBits$) else {
             fatalError("selfTypePointer metadata address was null")
@@ -163,7 +163,7 @@ struct JNIGenericTypeTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024makeStringID__Ljava_lang_String_2Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2")
-        public func Java_com_example_swift_SwiftModule__00024makeStringID__Ljava_lang_String_2Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, value: jstring?, resultOut: jobject?) {
+        public func Java_com_example_swift_SwiftModule__00024makeStringID__Ljava_lang_String_2Lorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, value: Cjstring?, resultOut: Cjobject?) {
           let result$ = UnsafeMutablePointer<MyID<String>>.allocate(capacity: 1)
           result$.initialize(to: SwiftModule.makeStringID(String(fromJNI: value, in: environment)))
           let resultBits$ = Int64(Int(bitPattern: result$))
@@ -173,12 +173,11 @@ struct JNIGenericTypeTests {
             let metadataPointerBits$ = Int64(Int(bitPattern: metadataPointer))
             environment.interface.SetLongField(environment, resultOut, _JNIMethodIDCache._OutSwiftGenericInstance.selfTypePointer, metadataPointerBits$.getJNIValue(in: environment))
           }
-          return
         }
         """,
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024takeIntID__J")
-        public func Java_com_example_swift_SwiftModule__00024takeIntID__J(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, value: jlong) -> jlong {
+        public func Java_com_example_swift_SwiftModule__00024takeIntID__J(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, value: jlong) -> jlong {
           assert(value != 0, "value memory address was null")
           let valueBits$ = Int(Int64(fromJNI: value, in: environment))
           let value$ = UnsafeMutablePointer<MyID<Int>>(bitPattern: valueBits$)
@@ -211,13 +210,13 @@ struct JNIGenericTypeTests {
       expectedChunks: [
         """
         protocol _SwiftModule_Box_opener {
-          static func _describeElement(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jstring?
+          static func _describeElement(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> Cjstring?
         }
         """,
         #"""
         extension Box: _SwiftModule_Box_opener {
-          static func _describeElement(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jstring? {
-            return Box<Element>.describeElement().getJNILocalRefValue(in: environment)
+          static func _describeElement(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> Cjstring? {
+            return unsafeBitCast(Box<Element>.describeElement().getJNILocalRefValue(in: environment), to: Cjstring?.self)
           }
         }
         """#,
@@ -244,13 +243,13 @@ struct JNIGenericTypeTests {
       expectedChunks: [
         """
         protocol _SwiftModule_VariadicBox_opener {
-          static func _describe(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jstring?
+          static func _describe(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> Cjstring?
         }
         """,
         #"""
         extension VariadicBox: _SwiftModule_VariadicBox_opener {
-          static func _describe(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jstring? {
-            return VariadicBox<repeat each T>.describe().getJNILocalRefValue(in: environment)
+          static func _describe(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> Cjstring? {
+            return unsafeBitCast(VariadicBox<repeat each T>.describe().getJNILocalRefValue(in: environment), to: Cjstring?.self)
           }
         }
         """#,
@@ -290,7 +289,7 @@ struct JNIGenericTypeTests {
       detectChunkByInitialLines: 1,
       expectedChunks: [
         #"""
-        public func Java_com_example_swift_MyEnum__00024getAsFoo__J_3BLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong, result_discriminator$: jbyteArray?, resultWrappedOut: jobject?) {
+        public func Java_com_example_swift_MyEnum__00024getAsFoo__J_3BLorg_swift_swiftkit_core__1OutSwiftGenericInstance_2(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong, result_discriminator$: CjbyteArray?, resultWrappedOut: Cjobject?) {
         """#
       ]
     )
@@ -354,7 +353,7 @@ struct JNIGenericTypeTests {
       expectedChunks: [
         #"""
         extension Foo.Bar: _SwiftModule_Foo_Bar_opener {
-          static func _work(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, selfPointer: jlong) {
+          static func _work(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, selfPointer: jlong) {
             ...
             let selfPointer$ = UnsafeMutablePointer<Foo.Bar<T>>(bitPattern: selfPointerBits$)
             guard let selfPointer$ else {

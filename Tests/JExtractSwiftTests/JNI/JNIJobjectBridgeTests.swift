@@ -40,8 +40,8 @@ struct JNIJobjectBridgeTests {
             className: "com/example/swift/ReefFish",
             methods: [wrapMemoryAddressUnsafeMethod]
           )
-          static var javaClass: jclass {
-            cache.javaClass
+          static var javaClass: OpaquePointer {
+            OpaquePointer(cache.javaClass)
           }
           static var wrapMemoryAddressUnsafe: jmethodID {
             cache[wrapMemoryAddressUnsafeMethod]!
@@ -51,7 +51,7 @@ struct JNIJobjectBridgeTests {
         struct _JNIBridge_ReefFish: JextractedTypeBridge {
           typealias SwiftType = ReefFish
 
-          static var javaClass: jclass {
+          static var javaClass: OpaquePointer {
             _JNI_ReefFish.javaClass
           } 
 

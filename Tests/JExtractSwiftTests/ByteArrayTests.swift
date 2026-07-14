@@ -199,7 +199,7 @@ final class ByteArrayTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024acceptArray___3B")
-        public func Java_com_example_swift_SwiftModule__00024acceptArray___3B(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, array: jbyteArray?) {
+        public func Java_com_example_swift_SwiftModule__00024acceptArray___3B(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, array: CjbyteArray?) {
           SwiftModule.acceptArray(array: [UInt8](fromJNI: array, in: environment))
         }
         """
@@ -232,8 +232,8 @@ final class ByteArrayTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024returnArray__")
-        public func Java_com_example_swift_SwiftModule__00024returnArray__(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass) -> jbyteArray? {
-          return SwiftModule.returnArray().getJNILocalRefValue(in: environment)
+        public func Java_com_example_swift_SwiftModule__00024returnArray__(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass) -> CjbyteArray? {
+          return unsafeBitCast(SwiftModule.returnArray().getJNILocalRefValue(in: environment), to: CjbyteArray?.self)
         }
         """
       ]
@@ -266,7 +266,7 @@ final class ByteArrayTests {
       expectedChunks: [
         """
         @_cdecl("Java_com_example_swift_SwiftModule__00024receiveBuffer___3B")
-        public func Java_com_example_swift_SwiftModule__00024receiveBuffer___3B(environment: UnsafeMutablePointer<JNIEnv?>!, thisClass: jclass, data: jbyteArray?) {
+        public func Java_com_example_swift_SwiftModule__00024receiveBuffer___3B(environment: UnsafeMutablePointer<CJNIEnv?>!, thisClass: jclass, data: CjbyteArray?) {
           let data$count = Int(environment.interface.GetArrayLength(environment, data))
           let data$ptr = environment.interface.GetByteArrayElements(environment, data, nil)!
           defer { environment.interface.ReleaseByteArrayElements(environment, data, data$ptr, jint(JNI_ABORT)) }
