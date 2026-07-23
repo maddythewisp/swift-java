@@ -37,8 +37,8 @@ import SwiftIfConfig
       output: .data(limit: 65536),
       error: .string(limit: 65536)
     )
-    if let error = result.standardError, !error.isEmpty {
-      fatalError(error)
+    if !result.standardError.isEmpty {
+      fatalError(result.standardError)
     }
     return result.standardOutput
     #else
