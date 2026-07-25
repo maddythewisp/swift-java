@@ -1482,19 +1482,19 @@ extension JNISwift2JavaGenerator {
 
       case .getJNIValue(let inner):
         let inner = inner.render(&printer, placeholder)
-        return "\(inner).getJNIValue(in: environment)"
+        return "unsafe \(inner.removingUnsafePrefix).getJNIValue(in: environment)"
 
       case .getJNILocalRefValue(let inner):
         let inner = inner.render(&printer, placeholder)
-        return "\(inner).getJNILocalRefValue(in: environment)"
+        return "unsafe \(inner.removingUnsafePrefix).getJNILocalRefValue(in: environment)"
 
       case .getJValue(let inner):
         let inner = inner.render(&printer, placeholder)
-        return "\(inner).getJValue(in: environment)"
+        return "unsafe \(inner.removingUnsafePrefix).getJValue(in: environment)"
 
       case .initFromJNI(let inner, let swiftType):
         let inner = inner.render(&printer, placeholder)
-        return "\(swiftType)(fromJNI: \(inner), in: environment)"
+        return "unsafe \(swiftType)(fromJNI: \(inner), in: environment)"
 
       case .interfaceToSwiftObject(
         let inner,
@@ -1584,15 +1584,15 @@ extension JNISwift2JavaGenerator {
           printer.print(#"assert(\#(inner) != 0, "\#(inner) memory address was null")"#)
         }
         if convertLongFromJNI {
-          printer.print("let \(inner)Bits$ = Int(Int64(fromJNI: \(inner), in: environment))")
+          printer.print("let \(inner)Bits$ = unsafe Int(Int64(fromJNI: \(inner), in: environment))")
         } else {
           printer.print("let \(inner)Bits$ = Int(\(inner))")
         }
-        printer.print("let \(pointerName) = UnsafeMutablePointer<\(swiftType)>(bitPattern: \(inner)Bits$)")
+        printer.print("let \(pointerName) = unsafe UnsafeMutablePointer<\(swiftType)>(bitPattern: \(inner)Bits$)")
         if !allowNil {
           printer.print(
             """
-            guard let \(pointerName) else {
+            guard let \(pointerName) = unsafe \(pointerName) else {
               fatalError("\(inner) memory address was null in call to \\(#function)!")
             }
             """
@@ -1605,13 +1605,13 @@ extension JNISwift2JavaGenerator {
         let pointerName = "\(inner)$"
         printer.print(
           """
-          let \(inner)Bits$ = Int(Int64(fromJNI: \(inner), in: environment))
-          guard let \(pointerName) = UnsafeRawPointer(bitPattern: \(inner)Bits$) else {
+          let \(inner)Bits$ = unsafe Int(Int64(fromJNI: \(inner), in: environment))
+          guard let \(pointerName) = unsafe UnsafeRawPointer(bitPattern: \(inner)Bits$) else {
             fatalError("\(inner) metadata address was null")
           }
           """
         )
-        return "unsafeBitCast(\(pointerName), to: Any.Type.self)"
+        return "unsafe unsafeBitCast(\(pointerName), to: Any.Type.self)"
 
       case .allocateSwiftValue(let inner, let name, let swiftType):
         let inner = inner.render(&printer, placeholder)
@@ -1620,7 +1620,7 @@ extension JNISwift2JavaGenerator {
         printer.print(
           """
           let \(pointerName) = UnsafeMutablePointer<\(swiftType)>.allocate(capacity: 1)
-          \(pointerName).initialize(to: \(inner))
+          unsafe \(pointerName).initialize(to: \(inner))
           let \(bitsName) = Int64(Int(bitPattern: \(pointerName)))
           """
         )
@@ -1642,17 +1642,17 @@ extension JNISwift2JavaGenerator {
           #if hasFeature(ImplicitOpenExistentials)
           let \(boxedName): (Int64, Int64) = {
             let value = \(existentialName)
-            let pointer = UnsafeMutablePointer<type(of: value)>.allocate(capacity: 1)
-            pointer.initialize(to: value)
-            let metadataPointer = unsafeBitCast(type(of: value), to: UnsafeRawPointer.self)
-            return (Int64(Int(bitPattern: pointer)), Int64(Int(bitPattern: metadataPointer)))
+            let pointer = unsafe UnsafeMutablePointer<type(of: value)>.allocate(capacity: 1)
+            unsafe pointer.initialize(to: value)
+            let metadataPointer = unsafe unsafeBitCast(type(of: value), to: UnsafeRawPointer.self)
+            return unsafe (Int64(Int(bitPattern: pointer)), Int64(Int(bitPattern: metadataPointer)))
           }()
           #else
           func \(name)Box$<T>(_ value: T) -> (Int64, Int64) {
-            let pointer = UnsafeMutablePointer<T>.allocate(capacity: 1)
-            pointer.initialize(to: value)
-            let metadataPointer = unsafeBitCast(T.self, to: UnsafeRawPointer.self)
-            return (Int64(Int(bitPattern: pointer)), Int64(Int(bitPattern: metadataPointer)))
+            let pointer = unsafe UnsafeMutablePointer<T>.allocate(capacity: 1)
+            unsafe pointer.initialize(to: value)
+            let metadataPointer = unsafe unsafeBitCast(T.self, to: UnsafeRawPointer.self)
+            return unsafe (Int64(Int(bitPattern: pointer)), Int64(Int(bitPattern: metadataPointer)))
           }
           let \(boxedName) = _openExistential(\(existentialName), do: \(name)Box$)
           #endif
@@ -1662,7 +1662,7 @@ extension JNISwift2JavaGenerator {
 
       case .pointee(let inner):
         let inner = inner.render(&printer, placeholder)
-        return "\(inner).pointee"
+        return "unsafe \(inner).pointee"
 
       case .closureLowering(let parameters, let nativeResult):
         var printer = SwiftPrinter()
@@ -2153,5 +2153,11 @@ extension JNISwift2JavaGenerator {
         return "\(placeholder) >= \(minMaxSource).min && \(placeholder) <= \(minMaxSource).max"
       }
     }
+  }
+}
+
+private extension String {
+  var removingUnsafePrefix: String {
+    hasPrefix("unsafe ") ? String(dropFirst("unsafe ".count)) : self
   }
 }
