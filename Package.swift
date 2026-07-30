@@ -9,7 +9,7 @@ if let localPath = Context.environment["SWIFT_JAVA_JNI_CORE_PATH"] {
   swiftJavaJNICoreDep = .package(path: localPath)
 } else {
   swiftJavaJNICoreDep = .package(
-    url: "https://github.com/maddythewisp/swift-java-jni-core",
+    url: "https://github.com/nucleus-os/swift-java-jni-core",
     branch: "nucleus-cxx-interop"
   )
 }
