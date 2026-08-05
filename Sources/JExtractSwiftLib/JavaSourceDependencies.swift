@@ -12,7 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-import OrderedCollections
 import SwiftExtract
 import SwiftJavaConfigurationShared
 import SwiftParser

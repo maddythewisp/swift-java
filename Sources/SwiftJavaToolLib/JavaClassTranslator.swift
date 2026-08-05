@@ -14,7 +14,6 @@
 
 import JavaLangReflect
 import Logging
-import OrderedCollections
 import SwiftJava
 import SwiftJavaConfigurationShared
 import SwiftSyntax

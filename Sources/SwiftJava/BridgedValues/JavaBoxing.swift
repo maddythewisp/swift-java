@@ -51,7 +51,7 @@ extension String: JavaBoxable {
     self.getJNIValue(in: environment)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/String")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/String")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> String {
     String(fromJNI: obj, in: environment)
@@ -67,7 +67,7 @@ extension Int64: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Int64 {
     guard let obj else { return 0 }
@@ -87,7 +87,7 @@ extension Int32: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Integer")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Integer")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Int32 {
     guard let obj else { return 0 }
@@ -107,7 +107,7 @@ extension Double: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Double")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Double")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Double {
     guard let obj else { return 0.0 }
@@ -127,7 +127,7 @@ extension Float: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Float")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Float")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Float {
     guard let obj else { return 0.0 }
@@ -147,7 +147,7 @@ extension Bool: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Boolean")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Boolean")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Bool {
     guard let obj else { return false }
@@ -170,7 +170,7 @@ extension Int8: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Byte")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Byte")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Int8 {
     guard let obj else { return 0 }
@@ -190,7 +190,7 @@ extension UInt8: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Byte")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Byte")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> UInt8 {
     guard let obj else { return 0 }
@@ -213,7 +213,7 @@ extension Int16: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Short")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Short")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Int16 {
     guard let obj else { return 0 }
@@ -236,7 +236,7 @@ extension UInt32: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Integer")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Integer")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> UInt32 {
     guard let obj else { return 0 }
@@ -256,7 +256,7 @@ extension UInt64: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> UInt64 {
     guard let obj else { return 0 }
@@ -279,7 +279,7 @@ extension Int: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> Int {
     guard let obj else { return 0 }
@@ -299,7 +299,7 @@ extension UInt: JavaBoxable {
     return environment.interface.NewObjectA(environment, cls, methodID, &args)
   }
 
-  public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
+  nonisolated(unsafe) public static let javaBoxClass: jclass = findJavaClass("java/lang/Long")
 
   public static func fromJavaObject(_ obj: jobject?, in environment: JNIEnvironment) -> UInt {
     guard let obj else { return 0 }

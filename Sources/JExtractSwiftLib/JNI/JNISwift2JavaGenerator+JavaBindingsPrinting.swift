@@ -14,7 +14,6 @@
 
 import CodePrinting
 import Foundation
-import OrderedCollections
 import SwiftExtract
 import SwiftJavaConfigurationShared
 import SwiftJavaJNICore

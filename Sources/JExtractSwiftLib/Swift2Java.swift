@@ -13,7 +13,6 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
-import OrderedCollections
 import SwiftExtract
 import SwiftJavaConfigurationShared
 import SwiftJavaShared
@@ -189,7 +188,7 @@ extension URL {
 }
 
 /// Collect all files with given 'suffix', will explore directories recursively.
-public func collectAllFiles(suffix: String, in inputPaths: [URL], log: Logger) -> OrderedSet<URL> {
+package func collectAllFiles(suffix: String, in inputPaths: [URL], log: Logger) -> OrderedSet<URL> {
   guard !inputPaths.isEmpty else {
     return []
   }
