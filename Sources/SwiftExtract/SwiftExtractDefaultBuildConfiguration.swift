@@ -23,15 +23,29 @@ package struct SwiftExtractDefaultBuildConfiguration: BuildConfiguration {
   private var base: StaticBuildConfiguration
 
   package init() {
-    guard let url = Bundle.module.url(forResource: "static-build-config", withExtension: "json") else {
-      fatalError("static-build-config.json is not found in module bundle")
-    }
     do {
-      let data = try Data(contentsOf: url)
+      let process = Process()
+      let output = Pipe()
+      let error = Pipe()
+      process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+      process.arguments = [
+        "swift", "frontend", "-print-static-build-config", "-target",
+        "aarch64-unknown-linux-gnu",
+      ]
+      process.standardOutput = output
+      process.standardError = error
+      try process.run()
+      let data = output.fileHandleForReading.readDataToEndOfFile()
+      let errorData = error.fileHandleForReading.readDataToEndOfFile()
+      process.waitUntilExit()
+      guard process.terminationStatus == 0 else {
+        let message = String(decoding: errorData, as: UTF8.self)
+        fatalError("swift frontend -print-static-build-config failed: \(message)")
+      }
       let decoder = JSONDecoder()
       base = try decoder.decode(StaticBuildConfiguration.self, from: data)
     } catch {
-      fatalError("\(error)")
+      fatalError("Unable to read the active Swift compiler's static build configuration: \(error)")
     }
   }
 

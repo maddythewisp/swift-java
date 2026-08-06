@@ -16,6 +16,7 @@ import JavaLangReflect
 import Logging
 import SwiftJava
 import SwiftJavaConfigurationShared
+import SwiftJavaShared
 import SwiftSyntax
 
 /// Utility type that translates a single Java class into its corresponding

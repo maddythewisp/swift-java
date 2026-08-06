@@ -17,6 +17,7 @@ import Foundation
 import SwiftExtract
 import SwiftJavaConfigurationShared
 import SwiftJavaJNICore
+import SwiftJavaShared
 
 // MARK: Defaults
 

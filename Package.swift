@@ -163,9 +163,7 @@ let package = Package(
         "SwiftExtractConfigurationShared",
       ],
       path: "Sources/SwiftExtract",
-      resources: [.process("Resources")],
-      swiftSettings: [.swiftLanguageMode(.v5)],
-      plugins: [.plugin(name: "_StaticBuildConfigPlugin")]
+      swiftSettings: [.swiftLanguageMode(.v5)]
     ),
     .target(
       name: "JExtractSwiftLib",
@@ -186,18 +184,6 @@ let package = Package(
         .swiftLanguageMode(.v5),
         .enableUpcomingFeature("BareSlashRegexLiterals"),
       ]
-    ),
-    .executableTarget(
-      name: "StaticBuildConfigPluginExecutable",
-      dependencies: [
-        .product(name: "Subprocess", package: "swift-subprocess"),
-        .product(name: "SwiftIfConfig", package: "swift-syntax"),
-      ]
-    ),
-    .plugin(
-      name: "_StaticBuildConfigPlugin",
-      capability: .buildTool(),
-      dependencies: ["StaticBuildConfigPluginExecutable"]
     ),
     .plugin(
       name: "JExtractSwiftPlugin",
