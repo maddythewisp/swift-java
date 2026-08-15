@@ -26,7 +26,7 @@ let package = Package(
     .package(path: "../swift-java-jni-core"),
     .package(path: "../swift-syntax"),
     .package(path: "../swift-argument-parser"),
-    .package(url: "https://github.com/nucleus-os/swift-system.git", branch: "nucleus"),
+    .package(url: "https://github.com/apple/swift-system.git", branch: "nucleus"),
     .package(url: "https://github.com/apple/swift-log.git", from: "1.6.4"),
     .package(
       url: "https://github.com/nucleus-os/swift-subprocess.git",
