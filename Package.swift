@@ -24,16 +24,12 @@ let package = Package(
   ],
   dependencies: [
     .package(path: "../swift-java-jni-core"),
-    .package(
-      url: "https://github.com/swiftlang/swift-syntax.git",
-      revision: "050f1a346fbbac0ca2cfb15a95274f7bd1cf0ccf"
-    ),
+    .package(path: "../swift-syntax"),
     .package(path: "../swift-argument-parser"),
-    .package(url: "https://github.com/nucleus-os/swift-system.git", branch: "nucleus"),
-    .package(url: "https://github.com/apple/swift-log.git", from: "1.6.4"),
+    .package(path: "../swift-system"),
+    .package(path: "../swift-log"),
     .package(
-      url: "https://github.com/nucleus-os/swift-subprocess.git",
-      branch: "nucleus-local-swift-system",
+      path: "../swift-subprocess",
       traits: ["SubprocessFoundation"]
     ),
   ],
