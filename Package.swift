@@ -28,12 +28,12 @@ let package = Package(
       url: "https://github.com/swiftlang/swift-syntax.git",
       revision: "050f1a346fbbac0ca2cfb15a95274f7bd1cf0ccf"
     ),
-    .package(path: "../swift-argument-parser"),
+    .package(url: "https://github.com/apple/swift-argument-parser.git", exact: "1.8.2"),
     .package(
       url: "https://github.com/nucleus-os/swift-system.git",
       revision: "2b0f3ac4a6b12719c7f72ebe7db26a34dabd7979"
     ),
-    .package(url: "https://github.com/apple/swift-log.git", from: "1.6.4"),
+    .package(url: "https://github.com/apple/swift-log.git", exact: "1.14.0"),
     .package(
       url: "https://github.com/nucleus-os/swift-subprocess.git",
       revision: "809c53762b881a045030acdbddd7399dd92a6175",
