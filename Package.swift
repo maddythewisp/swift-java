@@ -36,7 +36,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-log.git", from: "1.6.4"),
     .package(
       url: "https://github.com/nucleus-os/swift-subprocess.git",
-      revision: "1eeec39e91f93eb259f10fea4f91f9de932f1fd8",
+      revision: "4d4764f18f82c52e6cc83575f164f9558ec5ffe9",
       traits: ["SubprocessFoundation"]
     ),
   ],
